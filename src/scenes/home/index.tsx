@@ -4,11 +4,23 @@ import banner from "@/assets/banner3.png";
 import AnchorLink from "react-anchor-link-smooth-scroll";
 import { motion } from "framer-motion";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import { fetchData, exerciseOptions } from "@/utils/fetchData";
+import { useState } from "react";
 
 type Props = { setSelectedPage: (value: SelectedPage) => void };
 
 const Home = ({ setSelectedPage }: Props) => {
+  const [bodyParts, setBodyParts] = useState<[]>([]);
+  const fetchExercisesData = async () => {
+    const bodyPartsData = await fetchData(
+      "https://exercisedb.p.rapidapi.com/exercises/bodyPartList",
+      exerciseOptions
+    );
+  };
+
+  console.log(fetchExercisesData());
   const isAboveMediumScreens = useMediaQuery("(min-width: 1060px)");
+
   return (
     <section id="home" className="gap-16 bg-gray-20 py-10 md:h-full md:pb-0">
       {/* Image and main header */}
@@ -30,7 +42,7 @@ const Home = ({ setSelectedPage }: Props) => {
             }}
           >
             <div className="relative">
-              <p className="text-6xl ">Exercise</p>
+              <p className=" text-8xl  font-bold md:text-6xl  ">Exercise</p>
               <div className="text-[175px] text-primary-100 before:absolute before:-left-20 before:-top-40 before:z-[-1] md:before:content-exercise"></div>
             </div>
             <p className="mt-8 text-xl ">Fitness Club</p>
@@ -43,7 +55,7 @@ const Home = ({ setSelectedPage }: Props) => {
           {/* Actions */}
 
           <motion.div
-            className="mt-8 flex items-center gap-8"
+            className="my-8 flex items-center gap-8"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.5 }}
@@ -65,8 +77,8 @@ const Home = ({ setSelectedPage }: Props) => {
         </div>
 
         {/* Image */}
-        <div>
-          <img src={banner} alt="home-page-image" className="" />
+        <div className="flex basis-3/5 justify-center md:z-10 md:ml-40 md:mt-16 md:justify-items-end">
+          <img src={banner} alt="home-page-image" />
         </div>
       </motion.div>
     </section>
